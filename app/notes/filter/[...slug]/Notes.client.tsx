@@ -10,13 +10,17 @@ import Modal from '@/components/Modal/Modal';
 import NoteForm from '@/components/NoteForm/NoteForm';
 import { useDebounce } from 'use-debounce';
 import css from '@/components/NotePage/NotePage.module.css';
-import { NotesResponse } from '@/types/note';
+import { Note, NotesResponse } from '@/types/note';
 
 interface NotesClientProps {
   initialNotes: NotesResponse;
+  initialTag?: Note['tag'];
 }
 
-export default function NotesClient({ initialNotes }: NotesClientProps) {
+export default function NotesClient({
+  initialNotes,
+  initialTag,
+}: NotesClientProps) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [debouncedSearch] = useDebounce(search, 500);
@@ -24,11 +28,17 @@ export default function NotesClient({ initialNotes }: NotesClientProps) {
 
   useEffect(() => {
     setPage(1);
-  }, [debouncedSearch]);
+  }, [initialTag, debouncedSearch]);
 
   const { data = initialNotes } = useQuery({
-    queryKey: ['notes', page, debouncedSearch],
-    queryFn: () => fetchNotes({ page, perPage: 12, search: debouncedSearch }),
+    queryKey: ['notes', page, debouncedSearch, initialTag ?? 'all'],
+    queryFn: () =>
+      fetchNotes({
+        page,
+        perPage: 12,
+        search: debouncedSearch,
+        tag: initialTag,
+      }),
     placeholderData: keepPreviousData,
     initialData:
       page === 1 && debouncedSearch === '' ? initialNotes : undefined,
