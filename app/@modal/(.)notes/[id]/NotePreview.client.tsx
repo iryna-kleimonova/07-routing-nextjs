@@ -18,6 +18,7 @@ export default function NotePreview({ noteId }: Props) {
   } = useQuery({
     queryKey: ['note', noteId],
     queryFn: () => fetchNoteById(noteId),
+    refetchOnMount: false,
   });
 
   const close = () => router.back();

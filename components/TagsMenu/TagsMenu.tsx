@@ -19,7 +19,7 @@ const TagsMenu = () => {
         <ul className={css.menuList}>
           <li className={css.menuItem}>
             <Link
-              href="/notes/filter/all"
+              href="/notes/filter/All"
               className={css.menuLink}
               onClick={toggleMenu}
             >
