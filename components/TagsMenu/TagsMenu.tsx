@@ -3,7 +3,7 @@
 import css from './TagsMenu.module.css';
 import { useState } from 'react';
 import Link from 'next/link';
-import type { Note, NoteTag } from '@/types/note';
+import type { NoteTag } from '@/types/note';
 
 const tags: NoteTag[] = ['Todo', 'Work', 'Personal', 'Meeting', 'Shopping'];
 
